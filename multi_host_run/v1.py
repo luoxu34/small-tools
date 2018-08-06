@@ -11,7 +11,7 @@ Requires: fabric, compatible with fabric 1.x & 2.x
 from fabric.api import env, run, cd, execute
 from fabric.contrib.files import exists
 
-
+from base import print_result
 from setting import LOG_PATH, HOSTS
 
 env.timeout = 2  # 2秒连接超时
@@ -19,14 +19,6 @@ env.hosts = HOSTS
 env.dedupe_hosts = True  # 主机去重
 env.skip_bad_hosts = True  # 跳过连不上的主机
 env.abort_on_prompts = True  # 取消交互模式
-
-
-def print_result(host, context):
-    title = "{0} {1} {0}".format("=" * 34, host)
-    print(title)
-    print(context)
-    print(title)
-    print('\n\n')
 
 
 def run_cmd(cmd, path=None):
@@ -37,9 +29,9 @@ def run_cmd(cmd, path=None):
 
     if LOG_PATH and exists(LOG_PATH):
         with cd(path):
-            result = run(cmd)
+            result = run(cmd, quiet=True)
     else:
-        result = run(cmd)
+        result = run(cmd, quiet=True)
     print_result(env["host"], result)
     return
 
