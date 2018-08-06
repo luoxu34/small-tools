@@ -21,19 +21,30 @@ env.skip_bad_hosts = True  # 跳过连不上的主机
 env.abort_on_prompts = True  # 取消交互模式
 
 
-def run_cmd(cmd, path=None):
-    title = "{0} {1} {0}".format("=" * 34, env['host'])
+def print_result(host, context):
+    title = "{0} {1} {0}".format("=" * 34, host)
     print(title)
+    print(context)
+    print(title)
+    print('\n\n')
+
+
+def run_cmd(cmd, path=None):
+    result = ""
+    if not cmd:
+        print_result(env["host"], result)
+        return
+
     if LOG_PATH and exists(LOG_PATH):
         with cd(path):
-            run(cmd)
+            result = run(cmd)
     else:
-        run(cmd)
-    print(title)
-    print("\n\n")
+        result = run(cmd)
+    print_result(env["host"], result)
+    return
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _cmd = "pwd"
     execute(run_cmd, _cmd, LOG_PATH)
 
