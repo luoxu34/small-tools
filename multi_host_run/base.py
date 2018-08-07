@@ -14,3 +14,10 @@ def print_result(host, context):
     print(context)
     print(title)
     print('\n\n')
+
+
+class PasswordException(Exception):
+    def __init__(self, *args):
+        self.args = args
+        self.message = 'Invalid password for remote host.'
+
