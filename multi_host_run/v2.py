@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from fabric2 import SerialGroup
+try:
+    from fabric import SerialGroup
+except ImportError:
+    from fabric2 import SerialGroup
 
 from base import print_result, HOSTS, LOG_PATH
 
@@ -23,3 +26,4 @@ def main(cmd, path=LOG_PATH):
 
 if __name__ == '__main__':
     main('pwd')
+

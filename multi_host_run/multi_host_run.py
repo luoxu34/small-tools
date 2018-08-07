@@ -8,6 +8,8 @@ Summary: A small tool for publicSDK to filter related logs on multiple hosts.
 Requires: fabric, compatible with fabric 1.x & 2.x
 """
 
+import argparse
+
 fb_version = ''
 try:
     import fabric
@@ -20,7 +22,7 @@ try:
         from fabric import version
 
         fb_version = version.__version__
-except ImportError:
+except ImportError as e:
     print('[ERROR]Please install fabric first: pip install fabric')
     exit(-1)
 
@@ -32,5 +34,16 @@ else:
     print('[SORRY] No support fabric version: {}'.format(fb_version))
     exit(-1)
 
+
 if __name__ == '__main__':
-    main('pwd')
+
+    parser = argparse.ArgumentParser(
+        description='Execute commands on multiple hosts.')
+    parser.add_argument('cmd', help='the command that will be executed')
+    parser.add_argument('--path', '-p', help='specify a path for remote hosts')
+
+    args = parser.parse_args()
+
+    # test: ./multi_host_run.py pwd -p /tmp
+    main(args.cmd, args.path)
+
