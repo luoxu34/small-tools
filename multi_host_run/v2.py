@@ -15,7 +15,7 @@ def cd_and_run(c, cmd, path=None):
 
     if path:
         cmd = 'cd {} && {}'.format(path, cmd)
-    result = c.run(cmd, hide=True)
+    result = c.run(cmd, hide=True, warn=True)
     return result.stdout or result.stderr
 
 

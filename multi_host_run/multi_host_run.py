@@ -39,11 +39,28 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
         description='Execute commands on multiple hosts.')
-    parser.add_argument('cmd', help='the command that will be executed')
-    parser.add_argument('--path', '-p', help='specify a path for remote hosts')
+    parser.add_argument('--cmd', '-c', help='the command that will be executed')
+    parser.add_argument('--path', help='specify a path for remote hosts')
+
+    parser.add_argument('--pay', '-p', help='search pay.log*')
+    parser.add_argument('--login', '-l', help='search login.log*')
 
     args = parser.parse_args()
 
-    # test: ./multi_host_run.py pwd -p /tmp
-    main(args.cmd, args.path)
+    # test: ./multi_host_run.py -c pwd -p /tmp
+    _cmd = ''
+    if args.cmd:
+        _cmd = args.cmd
+    elif args.login:
+        _cmd = 'grep {} login.log*'.format(args.login)
+    elif args.pay:
+        _cmd = 'grep {} pay.log*'.format(args.pay)
+
+    if not _cmd:
+        exit(0)
+
+    if args.path:
+        main(_cmd, args.path)
+    else:
+        main(_cmd)
 
