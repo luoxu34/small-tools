@@ -61,6 +61,10 @@ if __name__ == '__main__':
 
     if args.path:
         main(_cmd, args.path)
-    else:
+    elif args.login or args.pay:
+        # 会进入base.py中配置的log_path再执行命令
         main(_cmd)
+    else:
+        # 默认路径
+        main(_cmd, None)
 
